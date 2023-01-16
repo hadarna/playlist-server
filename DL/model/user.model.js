@@ -1,5 +1,11 @@
+require("./playlist.model")
 
 const mongoose = require('mongoose');
+
+const songSchema = new mongoose.Schema({
+    name: { type: String },
+    url: { type: String }
+})
 
 const userSchema = new mongoose.Schema({
     fName: {
@@ -16,19 +22,21 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        select: false
     },
+    playlists: [{
+        id: {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: "playlist",
+            required: true
+        },
+        name: {
+            type: String
+        },
+
+    }],
+    lastSong: [songSchema],
     dob: {
         type: Date
-    },
-    createDate: {
-        type: Date,
-        default: Date.now
-    },
-    gender: {
-        type: String,
-        enum: ["male", "female"],
-        require: true
     },
     isActive: {
         type: Boolean,
